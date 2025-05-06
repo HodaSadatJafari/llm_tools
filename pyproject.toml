@@ -1,0 +1,12 @@
+[project]
+name = "llm-tools"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "dotenv>=0.9.9",
+    "openai>=1.77.0",
+    "ruff>=0.11.8",
+    "youtube-transcript-api>=1.0.3",
+]
