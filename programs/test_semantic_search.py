@@ -20,9 +20,6 @@ import torch
 from langchain.embeddings import HuggingFaceEmbeddings
 
 
-# %%
-# price is a factor for our company, so we're going to use a low cost model
-
 LLM_MODEL = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
@@ -36,22 +33,18 @@ EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-db_name = "dbs/test"
-path = "/home/hoda/Desktop/llms_test/input_texts/*"
-delete_db = False
+VECTOR_DB_NAME = "dbs/test"
+INPUT_PATH = "/home/hoda/Desktop/llms_test/input_texts/*"
+DELETE_VECTOR_DB = False
 
-# %%
 # Load environment variables in a file called .env
-
 load_dotenv()
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN", "your-key-if-not-using-env")
 print(os.environ["HF_TOKEN"])
 
-# %%
 # Read in documents using LangChain's loaders
 # Take everything in all the sub-folders of our knowledgebase
-
-docs = glob.glob(path)
+docs = glob.glob(INPUT_PATH)
 
 # With thanks to CG and Jon R, students on the course, for this fix needed for some users
 text_loader_kwargs = {"encoding": "utf-8"}
@@ -74,47 +67,43 @@ for i, doc in enumerate(docs):
         text.metadata["doc_type"] = str(i)
         documents.append(text)
 
-# %%
 print(f"Len docs: {len(documents)}")
 
-# %%
 print(f"Doc0: {documents[0]}")
 
-# %%
 # split the text into chunks
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 chunks = text_splitter.split_documents(documents)
 
-# %%
-print(f"len chunks: {len(chunks)}")
+print(f"Num chunks: {len(chunks)}")
 
-# %%
 doc_types = set(chunk.metadata["doc_type"] for chunk in chunks)
 print(f"Document types found: {', '.join(doc_types)}")
 
-# %%
 print(EMBEDDING_MODEL)
 embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 # embeddings = OllamaEmbeddings(model=MODEL)
 
 
 # Check if a Chroma Datastore already exists - if so, use that
-if delete_db is True:
-    if os.path.exists(db_name):
+if DELETE_VECTOR_DB is True:
+    if os.path.exists(VECTOR_DB_NAME):
         Chroma(
-            persist_directory=db_name, embedding_function=embeddings
+            persist_directory=VECTOR_DB_NAME, embedding_function=embeddings
         ).delete_collection()
     vectorstore = Chroma.from_documents(
-        documents=chunks, embedding=embeddings, persist_directory=db_name
+        documents=chunks, embedding=embeddings, persist_directory=VECTOR_DB_NAME
     )
 else:
-    if os.path.exists(db_name):
-        vectorstore = Chroma(persist_directory=db_name, embedding_function=embeddings)
+    if os.path.exists(VECTOR_DB_NAME):
+        vectorstore = Chroma(
+            persist_directory=VECTOR_DB_NAME, embedding_function=embeddings
+        )
         # vector
     else:
         # Create our Chroma vectorstore!
         vectorstore = Chroma.from_documents(
-            documents=chunks, embedding=embeddings, persist_directory=db_name
+            documents=chunks, embedding=embeddings, persist_directory=VECTOR_DB_NAME
         )
 print(f"Vectorstore created with {vectorstore._collection.count()} documents")
 
