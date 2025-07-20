@@ -177,3 +177,7 @@ cython_debug/
 
 transcript*
 summary*
+
+scripts/dbs
+scripts/.gradio
+dbs/
