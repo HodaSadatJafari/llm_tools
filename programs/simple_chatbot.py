@@ -237,7 +237,7 @@ with gr.Blocks() as demo:
     chat_interface = gr.ChatInterface(
         fn=chat, type="messages", additional_inputs=[model_dropdown]
     )
-    # gr.ChatInterface(fn=chat_open_source, type="messages")
 
 # Launch the demo
 demo.launch(inbrowser=True)
+# , share=True
