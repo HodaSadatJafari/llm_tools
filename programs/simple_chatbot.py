@@ -239,4 +239,5 @@ with gr.Blocks() as demo:
     )
 
 # Launch the demo
-demo.launch(inbrowser=True, share=True)
+demo.launch(inbrowser=True)
+# , share=True

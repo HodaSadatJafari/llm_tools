@@ -184,3 +184,4 @@ dbs/
 programs/dbs/
 programs/whisper_inputs
 programs/semantic_search_inputs
+server_connections.txt
