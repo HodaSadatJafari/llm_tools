@@ -182,3 +182,5 @@ scripts/dbs
 scripts/.gradio
 dbs/
 programs/dbs/
+programs/whisper_inputs
+programs/semantic_search_inputs
