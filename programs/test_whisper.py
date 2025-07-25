@@ -1,12 +1,14 @@
 """
 !pip install -U openai-whisper
+!sudo apt install ffmpeg
+
 source: https://github.com/openai/whisper
 """
 
 import whisper
 
 model = whisper.load_model("turbo")
-result = model.transcribe("https://khorshid.info/q/Qlist/Surahs/Saad/Saad_01.mp3")
+result = model.transcribe("whisper_inputs/Saad_01.mp3")
 
 # Specify the output file name
 output_file = "whisper_outputs/transcription.txt"
