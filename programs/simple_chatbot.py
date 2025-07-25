@@ -169,7 +169,9 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
     )
 
     # Tokenize the input
-    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+    inputs = tokenizer(
+        input_text, padding="max_length", truncation=True, return_tensors="pt"
+    ).to(model.device)
 
     # Generate response
     response = ""
