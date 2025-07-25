@@ -182,8 +182,9 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
             do_sample=True,
             temperature=0.7,
             top_p=0.9,
+            attention_mask=inputs["attention_mask"],
+            pad_token_id=tokenizer.eos_token_id,  # Explicitly setting pad_token_id is also good practice
         )
-
         # Decode the generated tokens
         generated_text = tokenizer.decode(
             outputs[0][inputs.input_ids.shape[1] :], skip_special_tokens=True
