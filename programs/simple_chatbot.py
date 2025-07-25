@@ -179,7 +179,7 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
         # Generate tokens
         outputs = model.generate(
             inputs.input_ids,
-            max_new_tokens=150,  # Adjust as needed
+            max_new_tokens=32768,  # Adjust as needed
             do_sample=True,
             temperature=0.7,
             top_p=0.9,
