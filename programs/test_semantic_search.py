@@ -20,7 +20,8 @@ import torch
 from langchain.embeddings import HuggingFaceEmbeddings
 
 
-LLM_MODEL = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+LLM_MODEL = "Qwen/Qwen3-4B"
+# "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # "Qwen/Qwen3-Embedding-0.6B"
@@ -33,8 +34,8 @@ EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-VECTOR_DB_NAME = "dbs/test"
-INPUT_PATH = "/home/hoda/Desktop/llms_test/input_texts/*"
+VECTOR_DB_NAME = "dbs/1"
+INPUT_PATH = "/semantic_search_inputs/1/*"
 DELETE_VECTOR_DB = False
 
 # Load environment variables in a file called .env

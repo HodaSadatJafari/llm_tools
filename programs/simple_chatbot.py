@@ -148,7 +148,7 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         # torch_dtype=torch.float16,
-        # device_map="auto",
+        device_map="auto",
         # torch_dtype=torch.float32,  # Use float32 for CPU
         # device_map="cpu",  # Explicitly set to CPU
     )
