@@ -22,7 +22,10 @@ def generate_response(user_input, history):
     response_ids = model.generate(**inputs, max_new_tokens=32768)[0][
         len(inputs.input_ids[0]) :
     ].tolist()
-    response = tokenizer.decode(response_ids, skip_special_tokens=True)
+
+    generated_text = tokenizer.decode(response_ids, skip_special_tokens=True)
+
+    response = generated_text.strip()
 
     # Yield the response incrementally
     for i in range(1, len(response) + 1):
