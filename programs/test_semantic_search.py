@@ -38,8 +38,8 @@ EMBEDDING_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-VECTOR_DB_NAME = "dbs/2-Qwen3-Embedding-0.6B"
-INPUT_PATH = "semantic_search_inputs/2/*"
+VECTOR_DB_NAME = "dbs/1-Qwen3-Embedding-0.6B"
+INPUT_PATH = "semantic_search_inputs/1/*"
 DELETE_VECTOR_DB = True
 
 # Load environment variables in a file called .env
