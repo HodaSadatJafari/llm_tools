@@ -1,5 +1,3 @@
-"https://huggingface.co/Qwen/Qwen3-4B"
-
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import gradio as gr
 
@@ -29,7 +27,8 @@ def generate_response(user_input, history):
         yield response[:i]
 
 
-model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+model_name = "Qwen/Qwen3-4B"
+# "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 print(f"Input model: {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
