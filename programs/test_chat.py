@@ -30,7 +30,7 @@ def generate_response(user_input, history):
     try:
         response_ids = model.generate(
             **inputs,
-            max_new_tokens=32768,
+            max_new_tokens=512,
         )
         generated_text = tokenizer.decode(
             response_ids[0][inputs.input_ids.shape[1] :],
@@ -64,6 +64,7 @@ with gr.Blocks() as demo:
     chat_interface = gr.ChatInterface(
         fn=generate_response,
         type="messages",
+        stream=True,
     )
 
 # Launch the demo
