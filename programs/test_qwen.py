@@ -54,21 +54,21 @@ if __name__ == "__main__":
     print(f"Bot: {response_3}")
 
     # Farsi
-    user_input_1 = "فارسی چقدر بلدی؟"
-    print(f"User: {user_input_1}")
-    response_1 = chatbot.generate_response(user_input_1)
-    print(f"Bot: {response_1}")
+    user_input_4 = "فارسی چقدر بلدی؟"
+    print(f"User: {user_input_4}")
+    response_4 = chatbot.generate_response(user_input_4)
+    print(f"Bot: {response_4}")
     print("----------------------")
 
     # Second input with /no_think
-    user_input_2 = "چند تا حرف ر در عبارت رورواک به رنگ توت فرنگی وجود دارد /no_think"
-    print(f"User: {user_input_2}")
-    response_2 = chatbot.generate_response(user_input_2)
-    print(f"Bot: {response_2}")
+    user_input_5 = "چند تا حرف ر در عبارت رورواک به رنگ توت فرنگی وجود دارد /no_think"
+    print(f"User: {user_input_5}")
+    response_5 = chatbot.generate_response(user_input_5)
+    print(f"Bot: {response_5}")
     print("----------------------")
 
     # Third input with /think
-    user_input_3 = "واقعا? /think"
-    print(f"User: {user_input_3}")
-    response_3 = chatbot.generate_response(user_input_3)
-    print(f"Bot: {response_3}")
+    user_input_6 = "واقعا? /think"
+    print(f"User: {user_input_6}")
+    response_6 = chatbot.generate_response(user_input_6)
+    print(f"Bot: {response_6}")
