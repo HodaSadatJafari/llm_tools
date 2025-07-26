@@ -6,7 +6,7 @@ system_message = "You are a helpful assistant"
 
 
 def generate_response(user_input, history):
-    print(history)
+
     messages = (
         [{"role": "system", "content": system_message}]
         + history
@@ -50,7 +50,8 @@ def generate_response(user_input, history):
         yield f"An error occurred: {str(e)}"
 
 
-model_name = "Qwen/Qwen3-4B"
+model_name = "Qwen/Qwen3-1.7B"
+# "Qwen/Qwen3-4B"
 # "Qwen/Qwen3-1.7B"
 # "Qwen/Qwen3-32B"
 # "google/gemma-3n-E2B"
