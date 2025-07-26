@@ -125,13 +125,14 @@ print(f"The vectors have {dimensions:,} dimensions")
 # llm = Ollama(model=MODEL)
 
 
-tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL)
+tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL, trust_remote_code=True)
 # device = torch.device("cpu")
 
 model = AutoModelForCausalLM.from_pretrained(
     LLM_MODEL,
     torch_dtype=torch.float16,
     device_map="auto",
+    trust_remote_code=True,
 )
 # .to(device)
 
