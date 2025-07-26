@@ -66,7 +66,6 @@ with gr.Blocks() as demo:
     chat_interface = gr.ChatInterface(
         fn=generate_response,
         type="messages",
-        save_history=True,
     )
 
 
