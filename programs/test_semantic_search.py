@@ -85,7 +85,7 @@ doc_types = set(chunk.metadata["doc_type"] for chunk in chunks)
 print(f"Document types found: {', '.join(doc_types)}")
 
 print(EMBEDDING_MODEL)
-embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL, trust_remote_code=True)
 # embeddings = OllamaEmbeddings(model=MODEL)
 
 
