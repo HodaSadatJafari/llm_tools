@@ -113,8 +113,7 @@ def get_real_model_name(selected_model):
 
 
 def chat_close_source(message, history, model_name="gpt-4o-mini"):
-    # MODEL_NAME = get_real_model_name(selected_model)
-    # print(f"Using this model: {MODEL_NAME}")
+    print(f"In the chat_close_source")
 
     messages = (
         [{"role": "system", "content": system_message}]
@@ -140,8 +139,7 @@ def chat_close_source(message, history, model_name="gpt-4o-mini"):
 
 
 def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat-v1.0"):
-    # MODEL_NAME = get_real_model_name(selected_model)
-    # print(f"Using this model: {MODEL_NAME}")
+    print(f"In the chat_open_source")
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(
@@ -167,7 +165,10 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
 
     # Tokenize the input
     inputs = tokenizer(
-        input_text, padding="max_length", truncation=True, return_tensors="pt"
+        input_text,
+        padding="max_length",
+        truncation=True,
+        return_tensors="pt",
     ).to(model.device)
 
     # Generate response
@@ -185,7 +186,8 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
         )
         # Decode the generated tokens
         generated_text = tokenizer.decode(
-            outputs[0][inputs.input_ids.shape[1] :], skip_special_tokens=True
+            outputs[0][inputs.input_ids.shape[1] :],
+            skip_special_tokens=True,
         )
         response = generated_text.strip()
 
