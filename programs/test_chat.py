@@ -18,18 +18,28 @@ def generate_response(user_input, history):
     )
 
     print(f"Model device {model.device}")  # test .to('cuda')
-    inputs = tokenizer(text, return_tensors="pt").to(model.device)
-    response_ids = model.generate(**inputs, max_new_tokens=32768)[0][
-        len(inputs.input_ids[0]) :
-    ].tolist()
+    inputs = tokenizer(
+        text,
+        return_tensors="pt",
+    ).to(model.device)
 
-    generated_text = tokenizer.decode(response_ids, skip_special_tokens=True)
+    # Generate response
+    response = ""
+    try:
+        response_ids = model.generate(**inputs, max_new_tokens=32768)[0][
+            len(inputs.input_ids[0]) :
+        ].tolist()
 
-    response = generated_text.strip()
+        generated_text = tokenizer.decode(response_ids, skip_special_tokens=True)
 
-    # Yield the response incrementally
-    for i in range(1, len(response) + 1):
-        yield response[:i]
+        response = generated_text.strip()
+
+        # Yield the response incrementally
+        for i in range(1, len(response) + 1):
+            yield response[:i]
+
+    except Exception as e:
+        yield f"An error occurred: {str(e)}"
 
 
 model_name = "Qwen/Qwen3-4B"
