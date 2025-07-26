@@ -28,6 +28,9 @@ def generate_response(user_input, history):
 
 
 model_name = "Qwen/Qwen3-4B"
+# "Qwen/Qwen3-1.7B"
+# "Qwen/Qwen3-32B"
+# "google/gemma-3n-E2B"
 # "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 print(f"Input model: {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
