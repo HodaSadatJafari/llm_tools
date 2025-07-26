@@ -40,8 +40,10 @@ def generate_response(user_input, history):
         response = generated_text.strip()
 
         # Yield the response incrementally
-        for i in range(1, len(response) + 1):
-            yield response[:i]
+        # for i in range(1, len(response) + 1):
+        #     yield response[:i]
+        for i in range(len(response)):
+            yield response[: i + 1]
 
     except Exception as e:
         yield f"An error occurred: {str(e)}"
@@ -64,8 +66,9 @@ with gr.Blocks() as demo:
     chat_interface = gr.ChatInterface(
         fn=generate_response,
         type="messages",
-        stream=True,
+        save_history=True,
     )
 
-# Launch the demo
-demo.launch(inbrowser=True)
+
+if __name__ == "__main__":
+    demo.launch()
