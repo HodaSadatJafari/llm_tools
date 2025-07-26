@@ -1,5 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import gradio as gr
+import torch
 
 system_message = "You are a helpful assistant"
 
@@ -16,7 +17,8 @@ def generate_response(user_input, history):
         messages, tokenize=False, add_generation_prompt=True
     )
 
-    inputs = tokenizer(text, return_tensors="pt")
+    print(f"Model device {model.device}")  # test .to('cuda')
+    inputs = tokenizer(text, return_tensors="pt").to(model.device)
     response_ids = model.generate(**inputs, max_new_tokens=32768)[0][
         len(inputs.input_ids[0]) :
     ].tolist()
@@ -34,7 +36,11 @@ model_name = "Qwen/Qwen3-4B"
 # "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 print(f"Input model: {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=torch.float16,
+    device_map="auto",
+)
 
 with gr.Blocks() as demo:
     chat_interface = gr.ChatInterface(

@@ -8,8 +8,7 @@ from openai import OpenAI
 import gradio as gr
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from huggingface_hub import InferenceClient
-
-# import torch
+import torch
 
 # Load environment variables in a file called .env
 # Print the key prefixes to help with any debugging
@@ -147,9 +146,8 @@ def chat_open_source(message, history, model_name="TinyLlama/TinyLlama-1.1B-Chat
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        # torch_dtype=torch.float16,
-        # device_map="auto", # "cpu"
-        # torch_dtype=torch.float32,  # Use float32 for CPU
+        torch_dtype=torch.float16,
+        device_map="auto",  # "cpu"
     )
 
     # Construct the full conversation context
