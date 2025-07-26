@@ -34,8 +34,8 @@ EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-VECTOR_DB_NAME = "dbs/1"
-INPUT_PATH = "semantic_search_inputs/1/*"
+VECTOR_DB_NAME = "dbs/2"
+INPUT_PATH = "semantic_search_inputs/2/*"
 DELETE_VECTOR_DB = False
 
 # Load environment variables in a file called .env
