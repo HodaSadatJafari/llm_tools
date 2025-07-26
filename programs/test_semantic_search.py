@@ -23,7 +23,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 LLM_MODEL = "Qwen/Qwen3-4B"
 # "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
-EMBEDDING_MODEL = "BAAI/bge-m3"
+EMBEDDING_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 # "BAAI/bge-m3"
 # xmanii/maux-gte-persian-v3
 # jinaai/jina-embeddings-v4
@@ -38,9 +38,9 @@ EMBEDDING_MODEL = "BAAI/bge-m3"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-VECTOR_DB_NAME = "dbs/1-bge-m3"
+VECTOR_DB_NAME = "dbs/2-Qwen3-Embedding-0.6B"
 INPUT_PATH = "semantic_search_inputs/2/*"
-DELETE_VECTOR_DB = False
+DELETE_VECTOR_DB = True
 
 # Load environment variables in a file called .env
 load_dotenv()
