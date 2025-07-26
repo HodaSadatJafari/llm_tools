@@ -23,7 +23,8 @@ from langchain.embeddings import HuggingFaceEmbeddings
 LLM_MODEL = "Qwen/Qwen3-4B"
 # "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "Qwen/Qwen3-Embedding-4B"
+# "sentence-transformers/all-MiniLM-L6-v2"
 # "Qwen/Qwen3-Embedding-0.6B"
 # "Qwen/Qwen3-Embedding-4B"
 # "Qwen/Qwen3-Embedding-8B"
@@ -34,7 +35,7 @@ EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-VECTOR_DB_NAME = "dbs/2"
+VECTOR_DB_NAME = "dbs/2-Qwen3-Embedding-4B"
 INPUT_PATH = "semantic_search_inputs/2/*"
 DELETE_VECTOR_DB = False
 
