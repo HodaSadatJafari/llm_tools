@@ -131,11 +131,8 @@ tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL, trust_remote_code=True)
 
 model = AutoModelForCausalLM.from_pretrained(
     LLM_MODEL,
-    torch_dtype=torch.float16,
-    device_map="auto",
-    trust_remote_code=True,
+    torch_dtype="auto", device_map="auto",
 )
-# .to(device)
 
 print("HI")
 
@@ -143,7 +140,7 @@ pipe = pipeline(
     "text-generation",
     model=model,
     tokenizer=tokenizer,
-    max_new_tokens=512,
+    max_new_tokens=32768,
     temperature=0.7,
     top_p=0.9,
     repetition_penalty=1.1,
@@ -168,22 +165,12 @@ def chat(message, history):
     result = conversation_chain.invoke({"question": message})
     return result["answer"]
 
-
-if __name__ == "__main__":
-
-    """
-    # set up the conversation memory for the chat
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-
-    # putting it together: set up the conversation chain with the GPT 4o-mini LLM, the vector store and memory
-    conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm, retriever=retriever, memory=memory
+with gr.Blocks() as demo:
+    chat_interface = gr.ChatInterface(
+        fn=chat,
+        type="messages",
     )
 
-    query = "How to use reinforcement learning for fixed wing landing"
-    result = conversation_chain.invoke({"question": query})
-    print(result["answer"])
-    """
 
-    view = gr.ChatInterface(chat, type="messages").launch(inbrowser=True)
-    # , share=True
+if __name__ == "__main__":
+    demo.launch()

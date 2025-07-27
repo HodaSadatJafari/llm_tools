@@ -175,6 +175,8 @@ cython_debug/
 
 .vscode
 
+programs/.gradio
+
 transcript*
 summary*
 
