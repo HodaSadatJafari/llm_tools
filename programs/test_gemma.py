@@ -2,6 +2,12 @@ from transformers import AutoProcessor, Gemma3nForConditionalGeneration
 from PIL import Image
 import requests
 import torch
+from dotenv import load_dotenv
+import os
+
+load_dotenv(override=True)
+os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN", "your-key-if-not-using-env")
+print(os.environ["HF_TOKEN"])
 
 model_id = "google/gemma-3n-e4b-it"
 
