@@ -3,7 +3,7 @@ from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer
 
 # Initialize tokenizer separately to apply chat template
-MODEL_NAME = "meta-llama/Llama-3.2-3B-Instruct"
+MODEL_NAME = "Qwen/Qwen3-4B"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 tokenizer.pad_token = tokenizer.eos_token  # Just in case
 
@@ -44,3 +44,4 @@ llm = LLM(
 
 # Run batch generation
 outputs = llm.generate(rendered_prompts, sampling_params)
+print(outputs)
