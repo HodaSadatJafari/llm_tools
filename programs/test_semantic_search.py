@@ -131,7 +131,8 @@ tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL, trust_remote_code=True)
 
 model = AutoModelForCausalLM.from_pretrained(
     LLM_MODEL,
-    torch_dtype="auto", device_map="auto",
+    torch_dtype="auto",
+    device_map="auto",
 )
 
 print("HI")
@@ -164,6 +165,7 @@ conversation_chain = ConversationalRetrievalChain.from_llm(
 def chat(message, history):
     result = conversation_chain.invoke({"question": message})
     return result["answer"]
+
 
 with gr.Blocks() as demo:
     chat_interface = gr.ChatInterface(

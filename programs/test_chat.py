@@ -48,6 +48,7 @@ def generate_response(user_input, history):
     for i in range(len(content)):
         yield content[: i + 1]
 
+
 model_name = "Qwen/Qwen3-32B"
 # "Qwen/Qwen3-1.7B"
 # "Qwen/Qwen3-4B"
@@ -58,7 +59,9 @@ model_name = "Qwen/Qwen3-32B"
 print(f"Input model: {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(
-    model_name, torch_dtype="auto", device_map="auto",
+    model_name,
+    torch_dtype="auto",
+    device_map="auto",
 )
 
 with gr.Blocks() as demo:
