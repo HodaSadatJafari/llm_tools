@@ -21,9 +21,10 @@ from langchain.embeddings import HuggingFaceEmbeddings
 
 
 LLM_MODEL = "Qwen/Qwen3-4B"
+# "Qwen/Qwen-7B-Chat"
 # "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
-EMBEDDING_MODEL = "Qwen/Qwen3-Embedding-0.6B"
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 # "BAAI/bge-m3"
 # xmanii/maux-gte-persian-v3
 # jinaai/jina-embeddings-v4
@@ -38,10 +39,15 @@ EMBEDDING_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 # db_name = "dbs/fixwing_vector_db"
 # path = "/home/hoda/Documents/Hooma/Fixed-wing/my_papers/*"
 
-VECTOR_DB_NAME = "dbs/1-Qwen3-Embedding-0.6B"
-INPUT_PATH = "semantic_search_inputs/1/*"
 DELETE_VECTOR_DB = True
-
+INPUT_PATH = "semantic_search_inputs/2/*"
+VECTOR_DB_NAME = "dbs/S" + (
+            INPUT_PATH.split("/")[-2]
+            + "_llm_"
+            + LLM_MODEL.split("/")[-1]
+            + "_embedding_"
+            + EMBEDDING_MODEL.split("/")[-1]
+        )
 # Load environment variables in a file called .env
 load_dotenv()
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN", "your-key-if-not-using-env")
@@ -158,13 +164,15 @@ memory = ConversationBufferMemory(memory_key="chat_history", return_messages=Tru
 
 # putting it together: set up the conversation chain with the GPT 4o-mini LLM, the vector store and memory
 conversation_chain = ConversationalRetrievalChain.from_llm(
-    llm=llm, retriever=retriever, memory=memory
+    llm=llm, retriever=retriever, memory=memory,
+    response_if_no_docs_found="نمیدانم. لطفا سوال دیگری بپرسید.",
 )
 
 
 def chat(message, history):
     result = conversation_chain.invoke({"question": message})
-    return result["answer"]
+    print(f"^^^^^^result: {result}")
+    return result["Answer"]
 
 
 with gr.Blocks() as demo:

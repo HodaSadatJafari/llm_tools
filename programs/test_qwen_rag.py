@@ -7,7 +7,7 @@ from langchain_community.llms import HuggingFacePipeline
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -47,6 +47,9 @@ class DocumentChatbot:
 
     def load_documents(self, directory):
         """Load documents from a directory"""
+        
+        text_loader_kwargs = {'encoding': 'utf-8'}
+
         # Support multiple file types
         loader = DirectoryLoader(
             directory,
@@ -55,15 +58,17 @@ class DocumentChatbot:
             show_progress=True,
         )
         documents = loader.load()
-        print(f"Loaded {len(documents)} documents from {directory}")
+        print(f"####Loaded {len(documents)} documents from {directory}")
         print(f"Document metadata: {documents[0].metadata}")
         print(f"Document metadata: {documents[0]}")
 
         # Split documents into chunks
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500, chunk_overlap=100
-        )
-        # CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        # text_splitter = RecursiveCharacterTextSplitter(
+        #     chunk_size=500, chunk_overlap=100
+        # )
+        text_splitter = CharacterTextSplitter(
+            chunk_size=1000, chunk_overlap=200
+            )
         return text_splitter.split_documents(documents)
 
     def create_vector_store(self):
@@ -84,7 +89,7 @@ class DocumentChatbot:
         tokenizer = AutoTokenizer.from_pretrained(self.LLM_MODEL)
         model = AutoModelForCausalLM.from_pretrained(
             self.LLM_MODEL, 
-            # torch_dtype="auto", #torch.float16, 
+            torch_dtype="auto", #torch.float16, 
             device_map="cuda",
         )
         tokenizer = AutoTokenizer.from_pretrained(self.LLM_MODEL)
@@ -110,17 +115,17 @@ class DocumentChatbot:
 
     def create_rag_pipeline(self):
         retriever = self.vector_store.as_retriever(
-            search_kwargs={
-                "k": 3,  # Top 3 most relevant documents
+            # search_kwargs={
+                # "k": 3,  # Top 3 most relevant documents
                 # "search_type": "mmr"  # Maximal Marginal Relevance
-            }
+            # }
         )
         """Create Retrieval-Augmented Generation pipeline"""
         memory = ConversationBufferMemory(
             memory_key="chat_history",
             return_messages=True,
-            input_key="question",  # Key for user input
-            output_key="answer",  # Key for model response
+            # input_key="question",  # Key for user input
+            # output_key="answer",  # Key for model response
         )
 
         # putting it together: set up the conversation chain with the GPT 4o-mini LLM, the vector store and memory
@@ -128,8 +133,8 @@ class DocumentChatbot:
             llm=self.llm,
             retriever=retriever,
             memory=memory,
-            return_source_documents=True,
-            response_if_no_docs_found="نمیدانم. لطفا سوال دیگری بپرسید.",
+            # return_source_documents=True,
+            # response_if_no_docs_found="نمیدانم. لطفا سوال دیگری بپرسید.",
         )
         return conversation_chain
 
@@ -144,17 +149,18 @@ class DocumentChatbot:
             # Extract answer and sources
             answer = result["answer"]
             # result['result']
-            sources = result["source_documents"]
+            # sources = result["source_documents"]
 
             # Format source information
-            source_info = "\n\nSources:\n" + "\n".join(
-                [f"- {doc.metadata.get('source', 'Unknown Source')}" for doc in sources]
-            )
+            # source_info = "\n\nSources:\n" + "\n".join(
+            #     [f"- {doc.metadata.get('source', 'Unknown Source')}" for doc in sources]
+            # )
 
             # Combine answer with source information
-            full_response = answer + source_info
+            # full_response = answer + source_info
 
-            return full_response
+            # return full_response
+            return answer
 
         except Exception as e:
             return f"An error occurred: {str(e)}"
