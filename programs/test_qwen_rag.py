@@ -53,11 +53,15 @@ class DocumentChatbot:
             show_progress=True,
         )
         documents = loader.load()
+        print(f"Loaded {len(documents)} documents from {directory}")
+        print(f"Document metadata: {documents[0].metadata}")
+        print(f"Document metadata: {documents[0]}")
 
         # Split documents into chunks
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=500, chunk_overlap=100
         )
+        # CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         return text_splitter.split_documents(documents)
 
     def create_vector_store(self):
@@ -77,7 +81,9 @@ class DocumentChatbot:
 
         tokenizer = AutoTokenizer.from_pretrained(self.LLM_MODEL)
         model = AutoModelForCausalLM.from_pretrained(
-            self.LLM_MODEL, torch_dtype="auto", device_map="auto"
+            self.LLM_MODEL, 
+            # torch_dtype="auto", #torch.float16, 
+            device_map="cuda",
         )
         tokenizer = AutoTokenizer.from_pretrained(self.LLM_MODEL)
 
@@ -85,9 +91,15 @@ class DocumentChatbot:
             "text-generation",
             model=model,
             tokenizer=tokenizer,
-            max_new_tokens=100,
-            top_k=50,
-            temperature=0.1,
+            max_new_tokens=512,
+            temperature=0.7,
+            top_p=0.9,
+            repetition_penalty=1.1,
+            return_full_text=False
+            
+            # max_new_tokens=100,
+            # top_k=50,
+            # temperature=0.1,
 
         )
         llm = HuggingFacePipeline(pipeline=pipe)
@@ -119,26 +131,6 @@ class DocumentChatbot:
         )
         return conversation_chain
 
-    # def create_rag_pipeline(self):
-    #     """Create Retrieval-Augmented Generation pipeline"""
-    #     retriever = self.vector_store.as_retriever(
-    #             search_kwargs={
-    #                 "k": 3,  # Top 3 most relevant documents
-    #                 # "search_type": "mmr"  # Maximal Marginal Relevance
-    #             }
-    #         )
-    #     return RetrievalQA.from_chain_type(
-    #         llm=self.llm,
-    #         chain_type="stuff",
-    #         retriever=retriever,
-    #         return_source_documents=True
-    #     )
-
-    #     # memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    #     # conversation_chain = ConversationalRetrievalChain.from_llm(
-    #     #     llm=self.llm, retriever=retriever, memory=memory
-    #     # )
-    #     # return conversation_chain
 
     def chat_with_documents(self, query, history):
         """Process user query and return response"""
@@ -187,14 +179,16 @@ class DocumentChatbot:
 
 def main():
     # Specify directory containing documents
-    DOCUMENT_DIRECTORY = "./semantic_search_inputs/3"
+    DOCUMENT_DIRECTORY = "./semantic_search_inputs/2"
 
     # Initialize and launch chatbot
     chatbot = DocumentChatbot(
         document_directory=DOCUMENT_DIRECTORY,
         llm_model="Qwen/Qwen3-4B",
-        embedding_model="Qwen/Qwen3-Embedding-0.6B",
+        embedding_model="sentence-transformers/all-MiniLM-L6-v2"
         # "Qwen/Qwen3-Embedding-4B",
+        # "Qwen/Qwen3-Embedding-0.6B",
+        
     )
     chatbot.launch_gradio_interface()
 
