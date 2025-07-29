@@ -10,23 +10,30 @@ os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN", "your-key-if-not-using-env")
 print(os.environ["HF_TOKEN"])
 
 model_id = "google/gemma-3n-e4b-it"
-
-model = Gemma3nForConditionalGeneration.from_pretrained(model_id, device_map="auto", torch_dtype=torch.bfloat16,).eval()
+# "google/gemma-3-4b-it"
+model = Gemma3nForConditionalGeneration.from_pretrained(
+    model_id,
+    device_map="auto",
+    torch_dtype="auto",  # torch.bfloat16,
+).eval()
 
 processor = AutoProcessor.from_pretrained(model_id)
 
 messages = [
     {
         "role": "system",
-        "content": [{"type": "text", "text": "You are a helpful assistant."}]
+        "content": [{"type": "text", "text": "You are a helpful assistant."}],
     },
     {
         "role": "user",
         "content": [
-            {"type": "image", "image": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/bee.jpg"},
-            {"type": "text", "text": "Describe this image in detail."}
-        ]
-    }
+            {
+                "type": "image",
+                "image": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/bee.jpg",
+            },
+            {"type": "text", "text": "Describe this image in detail."},
+        ],
+    },
 ]
 
 inputs = processor.apply_chat_template(

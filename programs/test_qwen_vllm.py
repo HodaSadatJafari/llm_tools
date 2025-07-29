@@ -1,7 +1,6 @@
 import os
 import torch
 import gradio as gr
-from vllm import LLM, SamplingParams
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.llms import HuggingFacePipeline
@@ -12,6 +11,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain.prompts import PromptTemplate
+
 
 class DocumentChatbot:
     def __init__(
@@ -80,16 +80,16 @@ class DocumentChatbot:
             # max_new_tokens=500,
             enforce_eager=True,
             dtype="bfloat16",
-            gpu_memory_utilization=0.8)
+            gpu_memory_utilization=0.8,
+        )
 
         return llm
 
     def create_rag_pipeline(self):
-        retriever = self.vector_store.as_retriever(            
-                          search_type="similarity",
-                          search_kwargs={"k": 4})
+        retriever = self.vector_store.as_retriever(
+            search_type="similarity", search_kwargs={"k": 4}
+        )
 
-    
         template = """
                     You are an assistant for question-answering tasks.
                 Use the following pieces of retrieved context to answer the 
@@ -106,11 +106,11 @@ class DocumentChatbot:
         prompt = PromptTemplate.from_template(template)
 
         qa_chain = RetrievalQA.from_chain_type(
-                llm,
-                retriever=retriever,
-                chain_type_kwargs={"prompt": prompt },
-                return_source_documents=True
-                )
+            llm,
+            retriever=retriever,
+            chain_type_kwargs={"prompt": prompt},
+            return_source_documents=True,
+        )
         return qa_chain
 
     def display_response_details(self, response):

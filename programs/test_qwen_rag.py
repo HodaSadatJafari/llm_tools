@@ -10,6 +10,7 @@ from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 
 
 class DocumentChatbot:
@@ -42,6 +43,7 @@ class DocumentChatbot:
             model_name=self.EMBEDDING_MODEL,
             model_kwargs={"device": "cuda" if torch.cuda.is_available() else "cpu"},
         )
+        # return OpenAIEmbeddings()
 
     def load_documents(self, directory):
         """Load documents from a directory"""
@@ -130,7 +132,6 @@ class DocumentChatbot:
             response_if_no_docs_found="نمیدانم. لطفا سوال دیگری بپرسید.",
         )
         return conversation_chain
-
 
     def chat_with_documents(self, query, history):
         """Process user query and return response"""
