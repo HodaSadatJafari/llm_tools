@@ -10,6 +10,7 @@ from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 
 
 class DocumentChatbot:
@@ -42,6 +43,7 @@ class DocumentChatbot:
             model_name=self.EMBEDDING_MODEL,
             model_kwargs={"device": "cuda" if torch.cuda.is_available() else "cpu"},
         )
+        # return OpenAIEmbeddings()
 
     def load_documents(self, directory):
         """Load documents from a directory"""
@@ -88,7 +90,6 @@ class DocumentChatbot:
             max_new_tokens=100,
             top_k=50,
             temperature=0.1,
-
         )
         llm = HuggingFacePipeline(pipeline=pipe)
 
@@ -118,27 +119,6 @@ class DocumentChatbot:
             response_if_no_docs_found="نمیدانم. لطفا سوال دیگری بپرسید.",
         )
         return conversation_chain
-
-    # def create_rag_pipeline(self):
-    #     """Create Retrieval-Augmented Generation pipeline"""
-    #     retriever = self.vector_store.as_retriever(
-    #             search_kwargs={
-    #                 "k": 3,  # Top 3 most relevant documents
-    #                 # "search_type": "mmr"  # Maximal Marginal Relevance
-    #             }
-    #         )
-    #     return RetrievalQA.from_chain_type(
-    #         llm=self.llm,
-    #         chain_type="stuff",
-    #         retriever=retriever,
-    #         return_source_documents=True
-    #     )
-
-    #     # memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    #     # conversation_chain = ConversationalRetrievalChain.from_llm(
-    #     #     llm=self.llm, retriever=retriever, memory=memory
-    #     # )
-    #     # return conversation_chain
 
     def chat_with_documents(self, query, history):
         """Process user query and return response"""
