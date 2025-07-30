@@ -137,7 +137,8 @@ tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL, trust_remote_code=True)
 
 model = AutoModelForCausalLM.from_pretrained(
     LLM_MODEL,
-    torch_dtype="auto",
+    torch_dtype=torch.float16,
+    # torch_dtype="auto",
     device_map="auto",
 )
 

@@ -11,7 +11,13 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTex
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from dotenv import load_dotenv
 
+
+load_dotenv(override=True)
+
+os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY', 'your-key-if-not-using-env')
+print(os.environ['OPENAI_API_KEY'])
 
 class DocumentChatbot:
     def __init__(
@@ -27,8 +33,6 @@ class DocumentChatbot:
         self.embeddings = self.create_embeddings()
         self.db_name = (
             document_directory.split("/")[-1]
-            + "_llm_"
-            + self.LLM_MODEL.split("/")[-1]
             + "_embedding_"
             + self.EMBEDDING_MODEL.split("/")[-1]
         )
@@ -39,11 +43,13 @@ class DocumentChatbot:
 
     def create_embeddings(self):
         """Create embeddings for document processing"""
-        return HuggingFaceEmbeddings(
-            model_name=self.EMBEDDING_MODEL,
-            model_kwargs={"device": "cuda" if torch.cuda.is_available() else "cpu"},
-        )
-        # return OpenAIEmbeddings()
+        if self.EMBEDDING_MODEL == "openai":
+            return OpenAIEmbeddings()
+        else:
+            return HuggingFaceEmbeddings(
+                model_name=self.EMBEDDING_MODEL,
+                model_kwargs={"device": "cuda" if torch.cuda.is_available() else "cpu"},
+            )            
 
     def load_documents(self, directory):
         """Load documents from a directory"""
@@ -192,9 +198,13 @@ def main():
     chatbot = DocumentChatbot(
         document_directory=DOCUMENT_DIRECTORY,
         llm_model="Qwen/Qwen3-4B",
-        embedding_model="sentence-transformers/all-MiniLM-L6-v2"
+        # "google/gemma-3n-E2B-it",
+        # "Qwen/Qwen3-4B",
+        embedding_model="BAAI/bge-m3"
+        # "sentence-transformers/all-MiniLM-L6-v2"
         # "Qwen/Qwen3-Embedding-4B",
         # "Qwen/Qwen3-Embedding-0.6B",
+        # "BAAI/bge-m3"
         
     )
     chatbot.launch_gradio_interface()
