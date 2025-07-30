@@ -38,7 +38,7 @@ class DocumentChatbot:
         )
         self.documents = self.load_documents(document_directory)
         self.vector_store = self.create_vector_store()
-        self.llm = self.initialize_qwen_model()
+        self.llm = self.initialize_model()
         self.rag_pipeline = self.create_rag_pipeline()
 
     def create_embeddings(self):
@@ -89,8 +89,8 @@ class DocumentChatbot:
             persist_directory=persist_directory,
         )
 
-    def initialize_qwen_model(self):
-        """Initialize Qwen3 model"""
+    def initialize_model(self):
+        """Initialize model"""
 
         tokenizer = AutoTokenizer.from_pretrained(self.LLM_MODEL)
         model = AutoModelForCausalLM.from_pretrained(
@@ -175,7 +175,7 @@ class DocumentChatbot:
         """Create Gradio interface for document chatbot"""
         iface = gr.ChatInterface(
             fn=self.chat_with_documents,
-            title="Document Chat with Qwen3 RAG",
+            title="RAG based Document Chat",
             description="Chat with your documents using Retrieval-Augmented Generation",
             theme="soft",
             # examples=[
@@ -200,7 +200,7 @@ def main():
         llm_model="Qwen/Qwen3-4B",
         # "google/gemma-3n-E2B-it",
         # "Qwen/Qwen3-4B",
-        embedding_model="BAAI/bge-m3"
+        embedding_model="sentence-transformers/all-MiniLM-L6-v2"
         # "sentence-transformers/all-MiniLM-L6-v2"
         # "Qwen/Qwen3-Embedding-4B",
         # "Qwen/Qwen3-Embedding-0.6B",
