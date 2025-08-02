@@ -182,6 +182,7 @@ summary*
 
 scripts/dbs
 scripts/.gradio
+.gradio
 dbs/
 programs/dbs/
 programs/whisper_inputs

@@ -200,7 +200,7 @@ def main():
         llm_model="Qwen/Qwen3-4B",
         # "google/gemma-3n-E2B-it",
         # "Qwen/Qwen3-4B",
-        embedding_model="sentence-transformers/all-MiniLM-L6-v2"
+        embedding_model="Qwen/Qwen3-Embedding-4B"
         # "sentence-transformers/all-MiniLM-L6-v2"
         # "Qwen/Qwen3-Embedding-4B",
         # "Qwen/Qwen3-Embedding-0.6B",

@@ -11,6 +11,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain.prompts import PromptTemplate
+from vllm import LLM
 
 
 class DocumentChatbot:
