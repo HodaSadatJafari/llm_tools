@@ -8,10 +8,10 @@ source: https://github.com/openai/whisper
 import whisper
 
 model = whisper.load_model("turbo")
-result = model.transcribe("whisper_inputs/Maryam 01 (High).mp3")
+result = model.transcribe("whisper_inputs/zeinab_denoise_boronfekani.wav")
 
 # Specify the output file name
-output_file = "whisper_outputs/transcription_Maryam_01.txt"
+output_file = "whisper_outputs/transcription_zeinab_denoise_boronfekani.txt"
 
 # Write the transcription result to the file
 with open(output_file, "w", encoding="utf-8") as f:

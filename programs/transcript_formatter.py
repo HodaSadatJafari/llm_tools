@@ -94,7 +94,7 @@ def call_openai_with_retry(
                     {"role": "user", "content": prompt},
                 ],
                 temperature=0.2,
-                max_tokens=4000,  # adjust if needed
+                max_tokens=3000,  # adjust if needed
             )
             return response.choices[0].message.content.strip()
         except openai.RateLimitError as e:
@@ -131,6 +131,9 @@ def process_transcript(input_path: str, output_path: str, model: str = "gpt-4"):
 
 
 def main():
+    """
+    python transcript_formatter.py  whisper_outputs/transcription_zeinab_denoise_boronfekani.txt  transcript_output/cleaned_transcription_zeinab_denoise_boronfekani.txt
+    """
     parser = argparse.ArgumentParser(
         description="Format a transcript using OpenAI API."
     )
@@ -138,7 +141,7 @@ def main():
     parser.add_argument("output", help="Path to write formatted transcript.")
     parser.add_argument(
         "--model",
-        default="gpt-5-mini",
+        default="gpt-4o-mini",
         help="OpenAI model to use (e.g., gpt-4, gpt-3.5-turbo).",
     )
     args = parser.parse_args()
