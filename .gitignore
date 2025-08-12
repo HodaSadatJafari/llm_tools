@@ -174,18 +174,19 @@ cython_debug/
 .pypirc
 
 .vscode
+.gradio
 
+outputs/
 programs/.gradio
-
-transcript*
-summary*
 
 scripts/dbs
 scripts/.gradio
-.gradio
 dbs/
 programs/dbs/
 programs/whisper_inputs
 programs/whisper_outputs
 programs/semantic_search_inputs
+programs/transcript_output/
+
+
 server_connections.txt

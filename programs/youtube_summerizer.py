@@ -8,7 +8,7 @@ load_dotenv()
 YOUTUBE_URL = os.getenv("YOUTUBE_URL")
 BASE_URL = os.getenv("BASE_URL")
 API_KEY = os.getenv("API_KEY")
-MODEL = os.getenv("MODEL", "gpt-4o")
+MODEL = os.getenv("MODEL", "gpt-4o-mini")
 
 # Initialize OpenAI client
 client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
@@ -45,7 +45,7 @@ def fetch_transcript(video_id):
     Returns:
         str: The concatenated transcript text.
     """
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+    transcript = YouTubeTranscriptApi().fetch(video_id)
     return " ".join(entry["text"] for entry in transcript)
 
 
